@@ -4,16 +4,27 @@ var fs = require('fs');
 var uglify = require('uglify-js');
 
 var extractSource = function(line) {
-  var re = /src=\".*\"/;
-  var src = re.exec(line)[0]
-              .replace('src="', '').replace('"', '');
+  var re = /src=[\'|\"](.*)[\'|\"]/;
+  var src = line.match(re)[1];
 
   return 'app/' + src;
 };
 
+var guid = function() {
+  var s4 = function() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+               .toString(16)
+               .substring(1);
+  };
+
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+         s4() + '-' + s4() + s4() + s4();
+};
+
 var createMinifyScript = function(scripts) {
   var code = uglify.minify(scripts).code;
-  fs.writeFile('default.js', code);
+  var fileName = gui() + '.js' ;
+  fs.writeFile(fileName, code);
 };
 
 var saveScripts = function(content, i) {
@@ -50,4 +61,19 @@ var main = function(err, data) {
   }
 };
 
-fs.readFile('app/index.html', 'utf8', main);
+var args = process.argv.slice(2);
+var file;
+
+args.forEach(function(param) {
+  var splited = param.split('=');
+  var key = splited[0];
+  var value = splited[1];
+  var isFile = key === '-f' || key === '--file';
+
+  if(isFile) {
+    file = value;
+  }
+
+});
+
+fs.readFile(file, 'utf8', main);

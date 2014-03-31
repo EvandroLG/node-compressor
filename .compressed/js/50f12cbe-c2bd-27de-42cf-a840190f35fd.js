@@ -1,0 +1,1 @@
+!function(){console.log("file 1")}(),function(){console.log("file 2")}();

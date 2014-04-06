@@ -44,6 +44,7 @@ Compressor.prototype = {
   copyPage: function() {
     var file = params.file;
     var newFile = '.compressed/' + path.basename(file);
+
     fs.copySync(file, newFile);
   },
 

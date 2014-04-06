@@ -3,5 +3,8 @@
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-contrib-uglify": "~0.2.2"
+  },
+  "dependencies": {
+    "fs-extra": "~0.8.1"
   }
 }

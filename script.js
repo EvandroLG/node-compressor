@@ -1,9 +1,10 @@
 #! /usr/bin/env node
 
 
-var fs = require('fs');
+var fs = require('fs-extra');
 var rimraf = require('rimraf');
 var uglify = require('uglify-js');
+var path = require('path');
 
 
 /*
@@ -22,6 +23,7 @@ var guid = function() {
 
 
 var Compressor = function(err, data) {
+  this.srcScripts = [];
   var content = data.split('\n');
   var i = 0;
   var size = content.length;
@@ -34,9 +36,17 @@ var Compressor = function(err, data) {
       this.saveFiles(content, i+1);
     }
   }
+
+  this.copyPage();
 };
 
 Compressor.prototype = {
+  copyPage: function() {
+    var file = params.file;
+    var newFile = '.compressed/' + path.basename(file);
+    fs.copySync(file, newFile);
+  },
+
   createDirectories: function(callback) {
     if (this.hasDirectory) {
       callback();
@@ -54,10 +64,12 @@ Compressor.prototype = {
 
   createMinify: function(scripts) {
     var code = uglify.minify(scripts).code;
-    var fileName = '.compressed/js/' + guid() + '.js';
+    var filename = guid() + '.js';
+    this.srcScripts.push(filename);
+    var srcScript = '.compressed/js/' + filename;
 
     this.createDirectories(function() {
-      fs.writeFile(fileName, code);
+      fs.writeFile(srcScript, code);
     });
   },
 

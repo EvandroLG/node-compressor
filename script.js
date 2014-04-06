@@ -38,12 +38,18 @@ var Compressor = function(err, data) {
 
 Compressor.prototype = {
   createDirectories: function(callback) {
-    rimraf('.compressed/', function() {
-      fs.mkdirSync('.compressed/');
-      fs.mkdirSync('.compressed/js');
-
+    if (this.hasDirectory) {
       callback();
-    });
+      return;
+    }
+
+    rimraf.sync('.compressed');
+    fs.mkdirSync('.compressed/');
+    fs.mkdirSync('.compressed/js');
+
+    this.hasDirectory = true;
+
+    callback();
   },
 
   createMinify: function(scripts) {

@@ -46,6 +46,27 @@ Compressor.prototype = {
     var newFile = '.compressed/' + path.basename(file);
 
     fs.copySync(file, newFile);
+    this.updateScripts();
+  },
+
+  updateScripts: function() {
+    var filename = '.compressed/index.html';
+    var that = this;
+
+    fs.readFile(filename, 'utf8', function(err, data) {
+      that.srcScripts.forEach(function(value) {
+        var script = '<script type="text/script" src=js/{{ SRC }}></script>';
+        script = script.replace('{{ SRC }}', value);
+
+        // remove blank lines
+        var code = data.replace(/(\r\n|\n|\r)/gm, '');
+        // replace scripts for optimized script
+        code = code.replace(/<!\-\- compress js \-\->(.*)<!\-\- endcompress \-\->/,
+                           script);
+
+        fs.writeFile(filename, code);
+      });
+    });
   },
 
   createDirectories: function(callback) {

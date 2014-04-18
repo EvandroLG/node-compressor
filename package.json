@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "description": "A complete solution to compress static files",
   "main": "compressor.js",
-  "private": true,
+  "bin": {
+    "node-compressor": ".compressor"
+  },
   "dependencies": {
     "fs-extra": "~0.8.1",
     "rimraf": "~2.2.6",

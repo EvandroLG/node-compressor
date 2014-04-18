@@ -1,9 +1,10 @@
 {
     "name": "Node Compressor"
-    "version": "1.0.0",
+    "version": "0.0.1",
     "devDependencies": {
         "fs-extra": "~0.8.1",
         "rimraf": "~2.2.6",
-        "uglify-js": "~2.4.13"
+        "uglify-js": "~2.4.13",
+
     },
 }

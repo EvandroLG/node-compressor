@@ -99,7 +99,7 @@ Compressor.prototype = {
     var re = /src=[\'|\"](.*)[\'|\"]/;
     var src = line.match(re)[1];
 
-    return 'app/' + src;
+    return src;
   },
 
   saveFiles: function(content, i) {

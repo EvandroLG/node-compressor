@@ -1,0 +1,3 @@
+app/
+.compressed/
+node_modules

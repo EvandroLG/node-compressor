@@ -1,10 +1,34 @@
 {
-    "name": "Node Compressor"
-    "version": "0.0.1",
-    "devDependencies": {
-        "fs-extra": "~0.8.1",
-        "rimraf": "~2.2.6",
-        "uglify-js": "~2.4.13",
-
-    },
+  "name": "node-compressor",
+  "version": "0.0.1",
+  "description": "A complete solution to compress static files",
+  "main": "compressor.js",
+  "dependencies": {
+    "fs-extra": "~0.8.1",
+    "rimraf": "~2.2.6",
+    "uglify-js": "~2.4.13"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EvandroLG/node-compressor.git"
+  },
+  "keywords": [
+    "compress",
+    "compressor",
+    "js",
+    "css",
+    "html",
+    "static",
+    "front-end"
+  ],
+  "author": "EvandroLG",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EvandroLG/node-compressor/issues"
+  },
+  "homepage": "https://github.com/EvandroLG/node-compressor"
 }

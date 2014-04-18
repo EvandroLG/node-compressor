@@ -2,3 +2,5 @@ app
 .compressed
 node_modules
 compressor-conf.js
+npm-debug.log
+

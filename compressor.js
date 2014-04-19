@@ -43,14 +43,13 @@ var Compressor = function(err, data) {
 Compressor.prototype = {
   copyPage: function() {
     var file = params.file;
-    var newFile = '.compressed/' + path.basename(file);
+    var pathfile = '.compressed/' + path.basename(file);
 
-    fs.copySync(file, newFile);
-    this.updateScripts();
+    fs.copySync(file, pathfile);
+    this.updateScripts(pathfile);
   },
 
-  updateScripts: function() {
-    var filename = '.compressed/index.html';
+  updateScripts: function(filename) {
     var that = this;
 
     fs.readFile(filename, 'utf8', function(err, data) {

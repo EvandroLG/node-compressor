@@ -1,10 +1,10 @@
 {
   "name": "node-compressor",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "A complete solution to compress static files",
   "main": "compressor.js",
   "bin": {
-    "node-compressor": ".compressor"
+    "node-compressor": "compressor.js"
   },
   "dependencies": {
     "fs-extra": "~0.8.1",

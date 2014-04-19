@@ -1,5 +1,13 @@
 #! /usr/bin/env node
 
+/*
+  * node-compressor: a complete solution to compress static files with node
+  * http://github.com/EvandroLG/node-compressor
+  * author: Evandro Leopoldino Goncalves <evandrolgoncalves@gmail.com>
+  * http://github.com/evandrolg
+  * License: MIT
+*/
+
 
 var fs = require('fs-extra');
 var rimraf = require('rimraf');
@@ -98,7 +106,7 @@ Compressor.prototype = {
     var re = /src=[\'|\"](.*)[\'|\"]/;
     var src = line.match(re)[1];
 
-    return 'app/' + src;
+    return src;
   },
 
   saveFiles: function(content, i) {

@@ -10,6 +10,7 @@ A complete solution to compress static files with node
 It's a command line tool that receives as parameter an HTML file and compresses the JavaScript and CSS files called. 
 
 The files that you want to compress must be between ``<!-- compress js/css -->`` and ``<!-- endcompress -->``. 
+
 After, run this command in your Terminal:
 
 ```shell

@@ -8,12 +8,10 @@
   * License: MIT
 */
 
-
 var fs = require('fs-extra');
 var rimraf = require('rimraf');
 var uglify = require('uglify-js');
 var path = require('path');
-
 
 /*
   function that create a guid - global unique identifier
@@ -28,7 +26,6 @@ var guid = function() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
          s4() + '-' + s4() + s4() + s4();
 };
-
 
 var Compressor = function(err, data) {
   this.srcScripts = [];
@@ -129,7 +126,6 @@ Compressor.prototype = {
   }
 };
 
-
 var Params = function() {
   this.args = process.argv.slice(2);
   this.file = undefined;
@@ -154,13 +150,10 @@ Params.prototype = {
   }
 };
 
-
 var params = new Params();
-
 
 var main = function(err, data) {
   new Compressor(err, data);
 };
-
 
 fs.readFile(params.file, 'utf8', main);

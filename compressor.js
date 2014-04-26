@@ -27,7 +27,8 @@ var guid = function() {
          s4() + '-' + s4() + s4() + s4();
 };
 
-var Compressor = function(err, data) {
+var Compressor = function(err, data, root) {
+  this.root = root;
   this.srcScripts = [];
   var content = data.split('\n');
   var i = 0;
@@ -48,7 +49,7 @@ var Compressor = function(err, data) {
 Compressor.prototype = {
   copyPage: function() {
     var file = params.file;
-    var pathfile = '.compressed/' + path.basename(file);
+    var pathfile = this.root + '.compressed/' + path.basename(file);
 
     fs.copySync(file, pathfile);
     this.updateScripts(pathfile);
@@ -79,9 +80,9 @@ Compressor.prototype = {
       return;
     }
 
-    rimraf.sync('.compressed');
-    fs.mkdirSync('.compressed/');
-    fs.mkdirSync('.compressed/js');
+    rimraf.sync(this.root + '.compressed');
+    fs.mkdirSync(this.root + '.compressed/');
+    fs.mkdirSync(this.root + '.compressed/js');
 
     this.hasDirectory = true;
 
@@ -92,8 +93,8 @@ Compressor.prototype = {
     var code = uglify.minify(scripts).code;
     var filename = guid() + '.js';
     this.srcScripts.push(filename);
-    var srcScript = '.compressed/js/' + filename;
-
+    var srcScript = this.root + '.compressed/js/' + filename;
+    
     this.createDirectories(function() {
       fs.writeFile(srcScript, code);
     });
@@ -128,8 +129,6 @@ Compressor.prototype = {
 
 var Params = function() {
   this.args = process.argv.slice(2);
-  this.file = undefined;
-
   this.read();
 };
 
@@ -142,10 +141,16 @@ Params.prototype = {
       var key = splited[0];
       var value = splited[1];
       var isFile = key === '-f' || key === '--file';
+      var isRoot = key === '-r' || key === '--root';
 
       if(isFile) {
         that.file = value;
       }
+
+      if(isRoot) {
+        that.root = value;
+      }
+
     });
   }
 };
@@ -153,7 +158,7 @@ Params.prototype = {
 var params = new Params();
 
 var main = function(err, data) {
-  new Compressor(err, data);
+  new Compressor(err, data, params.root);
 };
 
 fs.readFile(params.file, 'utf8', main);

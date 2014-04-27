@@ -10,19 +10,27 @@ describe('compressor', function() {
     var fixtures = {};
     fixtures.html = 'test/fixtures/index.html';
 
-    this.verifyDirectoriesOrFiles = function(path) {
+    this.runCommand = function() {
       var command = 'node compressor -f={{ HTML }} -r=test/fixtures/'
                    .replace('{{ HTML }}', fixtures.html);
 
       exec(command);
+    };
+
+    this.verifyDirectoriesOrFiles = function(path) {
+      this.runCommand();
 
       waits(200);
 
-      runs(function(){
+      runs(function() {
         var hasFile = fs.existsSync(path);
         expect(hasFile).toBeTruthy();
       });
     };
+  });
+
+  afterEach(function() {
+    rimraf.sync('test/fixtures/.compressed/');
   });
 
   describe('html', function() {
@@ -42,10 +50,16 @@ describe('compressor', function() {
     });
 
     it('should exists two js files in .compressed', function() {
-      var files = fs.readdirSync('test/fixtures/.compressed/js/');
-      var totalFiles = files.length;
+      this.runCommand();
 
-      expect(totalFiles).toEqual(2);
+      waits(200);
+
+      runs(function() {
+        var files = fs.readdirSync('test/fixtures/.compressed/js/');
+        var totalFiles = files.length;
+
+        expect(totalFiles).toEqual(2);
+      });
     });
   });
 

@@ -37,4 +37,11 @@ describe('compressor', function() {
     this.verifyDirectoriesOrFiles('test/fixtures/.compressed/js/');
   });
 
+  it('should exists two js files in .compressed', function() {
+    var files = fs.readdirSync('test/fixtures/.compressed/js/');
+    var totalFiles = files.length;
+
+    expect(totalFiles).toEqual(2);
+  });
+
 });

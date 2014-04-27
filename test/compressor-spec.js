@@ -25,23 +25,28 @@ describe('compressor', function() {
     };
   });
 
-  it('should create .compressed directory', function() {
-    this.verifyDirectoriesOrFiles('test/fixtures/.compressed/');
+  describe('html', function() {
+    it('should create .compressed directory', function() {
+      this.verifyDirectoriesOrFiles('test/fixtures/.compressed/');
+    });
+
+    it('should create index.html file in .compressed', function() {
+      this.verifyDirectoriesOrFiles('test/fixtures/.compressed/index.html');
+    });
   });
 
-  it('should create index.html file in .compressed', function() {
-    this.verifyDirectoriesOrFiles('test/fixtures/.compressed/index.html');
-  });
+  
+  describe('js', function() {
+    it('should create directory js in .compressed', function() {
+      this.verifyDirectoriesOrFiles('test/fixtures/.compressed/js/');
+    });
 
-  it('should create directory js in .compressed', function() {
-    this.verifyDirectoriesOrFiles('test/fixtures/.compressed/js/');
-  });
+    it('should exists two js files in .compressed', function() {
+      var files = fs.readdirSync('test/fixtures/.compressed/js/');
+      var totalFiles = files.length;
 
-  it('should exists two js files in .compressed', function() {
-    var files = fs.readdirSync('test/fixtures/.compressed/js/');
-    var totalFiles = files.length;
-
-    expect(totalFiles).toEqual(2);
+      expect(totalFiles).toEqual(2);
+    });
   });
 
 });

@@ -11,6 +11,7 @@
 var fs = require('fs-extra');
 var rimraf = require('rimraf');
 var uglify = require('uglify-js');
+var ClearCss = require('clean-css');
 var path = require('path');
 
 /*
@@ -39,13 +40,8 @@ var Compressor = function(err, data, root) {
     var hasCompressJs = line.indexOf('compress js') !== -1;
     var hasCompressCss = line.indexOf('compress css') !== -1;
 
-    if (hasCompressJs) {
-      this.saveFiles('js', content, i+1);
-    }
-
-    // if (hasCompressCss) {
-    //   this.saveFiles('css', content, i+1);
-    // }
+    if (hasCompressJs) this.saveFilesJs(content, i+1);
+    if (hasCompressCss) this.saveFilesCss('css', content, i+1);
   }
 
   this.copyPage();
@@ -94,7 +90,7 @@ Compressor.prototype = {
     callback();
   },
 
-  createMinify: function(scripts) {
+  createMinifyJs: function(scripts) {
     var code = uglify.minify(scripts).code;
     var filename = guid() + '.js';
     this.srcScripts.push(filename);
@@ -105,6 +101,10 @@ Compressor.prototype = {
     });
   },
 
+  createMinifyCss: function(styles) {
+    console.log(styles);
+  },
+
   extractSource: function(line) {
     var re = /(\bsrc\b|\bhref\b)=[\'|\"](.*)[\'|\"]/;
     var src = line.match(re)[2];
@@ -112,9 +112,8 @@ Compressor.prototype = {
     return src;
   },
 
-  saveFiles: function(type, content, i) {
-    var scripts = [];
-    var styles = [];
+  saveFiles: function(content, i) {
+    var files = [];
     var size = content.length;
 
     for (; i < size; i++) {
@@ -126,12 +125,21 @@ Compressor.prototype = {
       }
 
       var src = this.extractSource(line);
-      var isScript = type === 'js';
 
-      isScript ? scripts.push(src) : styles.push(src);
+      files.push(src);
     }
 
-    this.createMinify(scripts);
+    return files;
+  },
+
+  saveFilesJs: function(content, i) {
+    var scripts = this.saveFiles(content, i);
+    this.createMinifyJs(scripts);
+  },
+
+  saveFilesCss: function(content, i) {
+    var styles = this.saveFiles(content, i);
+    this.createMinifyCss(styles);
   }
 };
 

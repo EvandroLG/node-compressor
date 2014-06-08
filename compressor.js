@@ -41,7 +41,7 @@ var Compressor = function(err, data, root) {
     var hasCompressCss = line.indexOf('compress css') !== -1;
 
     if (hasCompressJs) this.saveFilesJs(content, i+1);
-    if (hasCompressCss) this.saveFilesCss('css', content, i+1);
+    if (hasCompressCss) this.saveFilesCss(content, i+1);
   }
 
   this.copyPage();
@@ -102,7 +102,15 @@ Compressor.prototype = {
   },
 
   createMinifyCss: function(styles) {
-    console.log(styles);
+    var root = this.root;
+
+    styles.forEach(function(src, index) {
+      var srcStyle = root + src;
+
+      fs.readFile(srcStyle, 'utf-8', function(err, data) {
+        console.log(data);
+      });
+    });
   },
 
   extractSource: function(line) {

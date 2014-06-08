@@ -106,9 +106,12 @@ Compressor.prototype = {
 
     styles.forEach(function(src, index) {
       var srcStyle = root + src;
+      var source = '';
 
       fs.readFile(srcStyle, 'utf-8', function(err, data) {
-        console.log(data);
+        source += data;
+        var minimized = new ClearCss().minify(source);
+        console.log(minimized);
       });
     });
   },

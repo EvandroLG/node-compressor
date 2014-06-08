@@ -101,8 +101,8 @@ Compressor.prototype = {
   },
 
   extractSource: function(line) {
-    var re = /src=[\'|\"](.*)[\'|\"]/;
-    var src = line.match(re)[1];
+    var re = /(\bsrc\b|\bhref\b)=[\'|\"](.*)[\'|\"]/;
+    var src = line.match(re)[2];
 
     return src;
   },

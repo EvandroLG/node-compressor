@@ -84,6 +84,7 @@ Compressor.prototype = {
     rimraf.sync(this.root + '.compressed');
     fs.mkdirSync(this.root + '.compressed/');
     fs.mkdirSync(this.root + '.compressed/js');
+    fs.mkdirSync(this.root + '.compressed/css');
 
     this.hasDirectory = true;
 

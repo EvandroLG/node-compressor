@@ -36,9 +36,9 @@ var Compressor = function(err, data, root) {
 
   for (; i < size; i++) {
     var line = content[i];
-    var isCompress = line.indexOf('compress js') !== -1;
+    var hasCompressJs = line.indexOf('compress js') !== -1;
 
-    if (isCompress) {
+    if (hasCompressJs) {
       this.saveFiles(content, i+1);
     }
   }
@@ -158,7 +158,8 @@ Params.prototype = {
 var params = new Params();
 
 var main = function(err, data) {
-  new Compressor(err, data, params.root);
+  var root = params.root || '';
+  new Compressor(err, data, root);
 };
 
 fs.readFile(params.file, 'utf8', main);

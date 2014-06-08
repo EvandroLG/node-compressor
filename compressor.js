@@ -37,10 +37,15 @@ var Compressor = function(err, data, root) {
   for (; i < size; i++) {
     var line = content[i];
     var hasCompressJs = line.indexOf('compress js') !== -1;
+    var hasCompressCss = line.indexOf('compress css') !== -1;
 
     if (hasCompressJs) {
-      this.saveFiles(content, i+1);
+      this.saveFiles('js', content, i+1);
     }
+
+    // if (hasCompressCss) {
+    //   this.saveFiles('css', content, i+1);
+    // }
   }
 
   this.copyPage();
@@ -107,8 +112,9 @@ Compressor.prototype = {
     return src;
   },
 
-  saveFiles: function(content, i) {
+  saveFiles: function(type, content, i) {
     var scripts = [];
+    var styles = [];
     var size = content.length;
 
     for (; i < size; i++) {
@@ -120,7 +126,9 @@ Compressor.prototype = {
       }
 
       var src = this.extractSource(line);
-      scripts.push(src);
+      var isScript = type === 'js';
+
+      isScript ? scripts.push(src) : styles.push(src);
     }
 
     this.createMinify(scripts);

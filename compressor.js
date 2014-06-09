@@ -106,16 +106,16 @@ Compressor.prototype = {
     var root = this.root;
     var that = this;
     var totalStyle = styles.length -1;
+    var source = '';
 
     styles.forEach(function(src, index) {
       var srcStyle = root + src;
-      var source = '';
 
       fs.readFile(srcStyle, 'utf-8', function(err, data) {
         source += data;
-        var isLast = totalStyle === index;
 
-        if(isLast) return;
+        var isLast = totalStyle === index;
+        if(!isLast) return;
 
         var filename = guid() + '.css';
         var srcStyle = root + '.compressed/css/' + filename;

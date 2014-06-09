@@ -105,6 +105,7 @@ Compressor.prototype = {
   createMinifyCss: function(styles) {
     var root = this.root;
     var that = this;
+    var totalStyle = styles.length -1;
 
     styles.forEach(function(src, index) {
       var srcStyle = root + src;
@@ -112,6 +113,10 @@ Compressor.prototype = {
 
       fs.readFile(srcStyle, 'utf-8', function(err, data) {
         source += data;
+        var isLast = totalStyle === index;
+
+        if(isLast) return;
+
         var filename = guid() + '.css';
         var srcStyle = root + '.compressed/css/' + filename;
         var code = new ClearCss().minify(source);

@@ -104,6 +104,7 @@ Compressor.prototype = {
 
   createMinifyCss: function(styles) {
     var root = this.root;
+    var that = this;
 
     styles.forEach(function(src, index) {
       var srcStyle = root + src;
@@ -111,8 +112,13 @@ Compressor.prototype = {
 
       fs.readFile(srcStyle, 'utf-8', function(err, data) {
         source += data;
-        var minimized = new ClearCss().minify(source);
-        console.log(minimized);
+        var filename = guid() + '.css';
+        var srcStyle = root + '.compressed/css/' + filename;
+        var code = new ClearCss().minify(source);
+        
+        that.createDirectories(function() {
+          fs.writeFile(srcStyle, code);
+        });
       });
     });
   },

@@ -54,6 +54,11 @@ Compressor.prototype = {
 
     fs.copySync(file, pathfile);
     this.updateScripts(pathfile);
+    this.updateStyles(pathfile);
+  },
+
+  updateStyles: function(filename) {
+    
   },
 
   updateScripts: function(filename) {

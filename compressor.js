@@ -53,31 +53,52 @@ Compressor.prototype = {
     var pathfile = this.root + '.compressed/' + path.basename(file);
 
     fs.copySync(file, pathfile);
+    this.updatePage(pathfile);
     this.updateScripts(pathfile);
     this.updateStyles(pathfile);
   },
 
-  updateStyles: function(filename) {
-    
-  },
-
-  updateScripts: function(filename) {
+  updatePage: function(filename) {
     var that = this;
 
     fs.readFile(filename, 'utf8', function(err, data) {
-      that.srcScripts.forEach(function(value) {
-        var script = '<script type="text/script" src=js/{{ SRC }}></script>';
-        script = script.replace('{{ SRC }}', value);
-
-        // remove blank lines
-        var code = data.replace(/(\r\n|\n|\r)/gm, '');
-        // replace scripts for optimized script
-        code = code.replace(/<!\-\- compress js \-\->(.*)<!\-\- endcompress \-\->/,
-                           script);
-
-        fs.writeFile(filename, code);
-      });
+      that.updateScripts.apply(that, filename, data);
     });
+  },
+
+  updateStyles: function(filename) {
+
+  },
+
+  updateScripts: function(filename, data) {
+    this.srcScripts.forEach(function(value) {
+      var script = '<script type="text/script" src=js/{{ SRC }}></script>';
+      script = script.replace('{{ SRC }}', value);
+
+      // remove blank lines
+      var code = data.replace(/(\r\n|\n|\r)/gm, '');
+      // replace scripts for optimized script
+      code = code.replace(/<!\-\- compress js \-\->(.*)<!\-\- endcompress \-\->/,
+                         script);
+
+      fs.writeFile(filename, code);
+    });
+    // var that = this;
+
+    // fs.readFile(filename, 'utf8', function(err, data) {
+    //   that.srcScripts.forEach(function(value) {
+    //     var script = '<script type="text/script" src=js/{{ SRC }}></script>';
+    //     script = script.replace('{{ SRC }}', value);
+
+    //     // remove blank lines
+    //     var code = data.replace(/(\r\n|\n|\r)/gm, '');
+    //     // replace scripts for optimized script
+    //     code = code.replace(/<!\-\- compress js \-\->(.*)<!\-\- endcompress \-\->/,
+    //                        script);
+
+    //     fs.writeFile(filename, code);
+    //   });
+    // });
   },
 
   createDirectories: function(callback) {

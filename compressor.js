@@ -31,6 +31,7 @@ var guid = function() {
 var Compressor = function(err, data, root) {
   this.root = root;
   this.srcScripts = [];
+  this.srcStyles = [];
   var content = data.split('\n');
   var i = 0;
   var size = content.length;
@@ -54,27 +55,33 @@ Compressor.prototype = {
 
     fs.copySync(file, pathfile);
     this.updatePage(pathfile);
-    this.updateScripts(pathfile);
-    this.updateStyles(pathfile);
   },
 
   updatePage: function(filename) {
-    var that = this;
-
     fs.readFile(filename, 'utf8', function(err, data) {
-      that.updateScripts.apply(that, filename, data);
-    });
+      this.updateScripts(filename, data);
+      this.updateStyles(filename, data);
+    }.bind(this));
   },
 
-  updateStyles: function(filename) {
+  updateStyles: function(filename, data) {
+    this.srcStyles.forEach(function(value) {
+      var style = '<link href="SRC"  />';
+      style = style.replace('SRC', value);
+      // remove blank lines
+      var code = data.replace(/(\r\n|\n|\r)/gm, '');
+      // replace scripts for optimized css file
+      code = code.replace(/<!\-\- compress css \-\->(.*)<!\-\- endcompress \-\->/,
+                         style);
 
+      fs.writeFile(filename, code);
+    });
   },
 
   updateScripts: function(filename, data) {
     this.srcScripts.forEach(function(value) {
-      var script = '<script type="text/script" src=js/{{ SRC }}></script>';
+      var script = '<script src=js/{{ SRC }}></script>';
       script = script.replace('{{ SRC }}', value);
-
       // remove blank lines
       var code = data.replace(/(\r\n|\n|\r)/gm, '');
       // replace scripts for optimized script
@@ -83,22 +90,6 @@ Compressor.prototype = {
 
       fs.writeFile(filename, code);
     });
-    // var that = this;
-
-    // fs.readFile(filename, 'utf8', function(err, data) {
-    //   that.srcScripts.forEach(function(value) {
-    //     var script = '<script type="text/script" src=js/{{ SRC }}></script>';
-    //     script = script.replace('{{ SRC }}', value);
-
-    //     // remove blank lines
-    //     var code = data.replace(/(\r\n|\n|\r)/gm, '');
-    //     // replace scripts for optimized script
-    //     code = code.replace(/<!\-\- compress js \-\->(.*)<!\-\- endcompress \-\->/,
-    //                        script);
-
-    //     fs.writeFile(filename, code);
-    //   });
-    // });
   },
 
   createDirectories: function(callback) {
@@ -135,9 +126,9 @@ Compressor.prototype = {
     var source = '';
 
     styles.forEach(function(src, index) {
-      var srcStyle = root + src;
+      var currentStyle = root + src;
 
-      fs.readFile(srcStyle, 'utf-8', function(err, data) {
+      fs.readFile(currentStyle, 'utf-8', function(err, data) {
         source += data;
 
         var isLast = totalStyle === index;
@@ -146,7 +137,8 @@ Compressor.prototype = {
         var filename = guid() + '.css';
         var srcStyle = root + '.compressed/css/' + filename;
         var code = new ClearCss().minify(source);
-        
+        that.srcStyles.push(srcStyle);
+
         that.createDirectories(function() {
           fs.writeFile(srcStyle, code);
         });

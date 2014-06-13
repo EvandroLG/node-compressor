@@ -59,8 +59,8 @@ Compressor.prototype = {
 
   updatePage: function(filename) {
     fs.readFile(filename, 'utf8', function(err, data) {
-      this.updateScripts(filename, data);
       this.updateStyles(filename, data);
+      this.updateScripts(filename, data);
     }.bind(this));
   },
 

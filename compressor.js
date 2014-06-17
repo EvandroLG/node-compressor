@@ -59,23 +59,25 @@ Compressor.prototype = {
 
   updatePage: function(filename) {
     fs.readFile(filename, 'utf8', function(err, data) {
-      this.updateStyles(filename, data);
-      this.updateScripts(filename, data);
+      var code = this.updateStyles(filename, data);
+      this.updateScripts(filename, code);
     }.bind(this));
   },
 
   updateStyles: function(filename, data) {
+    var code;
+
     this.srcStyles.forEach(function(value) {
       var style = '<link href="SRC"  />';
       style = style.replace('SRC', value);
       // remove blank lines
-      var code = data.replace(/(\r\n|\n|\r)/gm, '');
-      // replace scripts for optimized css file
+      code = data.replace(/(\r\n|\n|\r)/gm, '');
+      // replace styles to optimized css file
       code = code.replace(/<!\-\- compress css \-\->(.*)<!\-\- endcompress \-\->/,
                          style);
-
-      fs.writeFile(filename, code);
     });
+
+    return code;
   },
 
   updateScripts: function(filename, data) {
@@ -84,7 +86,7 @@ Compressor.prototype = {
       script = script.replace('{{ SRC }}', value);
       // remove blank lines
       var code = data.replace(/(\r\n|\n|\r)/gm, '');
-      // replace scripts for optimized script
+      // replace scripts to optimized script
       code = code.replace(/<!\-\- compress js \-\->(.*)<!\-\- endcompress \-\->/,
                          script);
 

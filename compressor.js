@@ -73,7 +73,7 @@ Compressor.prototype = {
       // remove blank lines
       code = data.replace(/(\r\n|\n|\r)/gm, '');
       // replace styles to optimized css file
-      code = code.replace(/<!\-\- compress css \-\->(.*)<!\-\- endcompress \-\->/,
+      code = code.replace(/<!\-\- compress css \-\->(.*?)<!\-\- endcompress \-\->/,
                          style);
     });
 
@@ -87,7 +87,7 @@ Compressor.prototype = {
       // remove blank lines
       var code = data.replace(/(\r\n|\n|\r)/gm, '');
       // replace scripts to optimized script
-      code = code.replace(/<!\-\- compress js \-\->(.*)<!\-\- endcompress \-\->/,
+      code = code.replace(/<!\-\- compress js \-\->(.*?)<!\-\- endcompress \-\->/,
                          script);
 
       fs.writeFile(filename, code);

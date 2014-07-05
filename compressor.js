@@ -61,6 +61,7 @@ Compressor.prototype = {
     fs.readFile(filename, 'utf8', function(err, data) {
       var code = this.updateStyles(filename, data);
       code = this.updateScripts(filename, code);
+
       fs.writeFile(filename, code);
     }.bind(this));
   },
@@ -85,7 +86,7 @@ Compressor.prototype = {
     var code;
 
     this.srcScripts.forEach(function(value) {
-      var script = '<script src=js/{{ SRC }}></script>';
+      var script = '<script src="{{ SRC }}"></script>';
       script = script.replace('{{ SRC }}', value);
       // remove blank lines
       code = data.replace(/(\r\n|\n|\r)/gm, '');

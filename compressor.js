@@ -61,8 +61,7 @@ Compressor.prototype = {
     fs.readFile(filename, 'utf8', function(err, data) {
       var code = this.updateStyles(filename, data);
       code = this.updateScripts(filename, code);
-
-      console.log(code);
+      fs.writeFile(filename, code);
     }.bind(this));
   },
 
@@ -77,7 +76,6 @@ Compressor.prototype = {
       // replace styles to optimized css file
       code = code.replace(/<!\-\- compress css \-\->(.*?)<!\-\- endcompress \-\->/,
                          style);
-
     });
 
     return code;
@@ -94,12 +92,11 @@ Compressor.prototype = {
       // replace scripts to optimized script
       code = code.replace(/<!\-\- compress js \-\->(.*?)<!\-\- endcompress \-\->/,
                          script);
-      // fs.writeFile(filename, code);
     });
 
     var hasCompressJS = code.indexOf('compress js') !== -1;
 
-    if(!hasCompressJS) {
+    if(hasCompressJS) {
       return this.updateScripts(filename, code);
     }
 

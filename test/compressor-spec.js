@@ -11,7 +11,7 @@ describe('compressor', function() {
     fixtures.html = 'test/fixtures/index.html';
 
     this.runCommand = function() {
-      var command = 'node compressor -f={{ HTML }} -r=test/fixtures/'
+      var command = 'node index -f={{ HTML }} -r=test/fixtures/'
                    .replace('{{ HTML }}', fixtures.html);
 
       exec(command);

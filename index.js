@@ -1,5 +1,6 @@
 #! /usr/bin/env node
 
+
 /*
   * node-compressor: a complete solution to compress static files with node
   * http://github.com/EvandroLG/node-compressor

@@ -83,21 +83,20 @@ Compressor.prototype = {
   },
 
   updateScripts: function(filename, data) {
-    var code;
+    var value = this.srcScripts[0];
+    var script = '<script src="{{ SRC }}"></script>';
+    script = script.replace('{{ SRC }}', value);
+    // remove blank lines
+    var code = data.replace(/(\r\n|\n|\r)/gm, '');
+    // replace scripts to optimized script
+    code = code.replace(/<!\-\- compress js \-\->(.*?)<!\-\- endcompress \-\->/,
+                       script);
+    // remove first script of list
+    this.srcScripts.shift();
 
-    this.srcScripts.forEach(function(value) {
-      var script = '<script src="{{ SRC }}"></script>';
-      script = script.replace('{{ SRC }}', value);
-      // remove blank lines
-      code = data.replace(/(\r\n|\n|\r)/gm, '');
-      // replace scripts to optimized script
-      code = code.replace(/<!\-\- compress js \-\->(.*?)<!\-\- endcompress \-\->/,
-                         script);
-    });
+    var hasCompressJS = this.srcScripts.length;
 
-    var hasCompressJS = code.indexOf('compress js') !== -1;
-
-    if(hasCompressJS) {
+    if (hasCompressJS) {
       return this.updateScripts(filename, code);
     }
 

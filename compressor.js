@@ -59,46 +59,57 @@ Compressor.prototype = {
 
   updatePage: function(filename) {
     fs.readFile(filename, 'utf8', function(err, data) {
-      var code = this.updateStyles(filename, data);
-      code = this.updateScripts(filename, code);
+      var code = this.updateFiles('css', filename, data);
+      code = this.updateFiles('js', filename, code);
 
       fs.writeFile(filename, code);
     }.bind(this));
   },
 
-  updateStyles: function(filename, data) {
-    var code;
+  // updateStyles: function(filename, data) {
+  //   var code;
 
-    this.srcStyles.forEach(function(value) {
-      var style = '<link href="SRC"  />';
-      style = style.replace('SRC', value);
-      // remove blank lines
-      code = data.replace(/(\r\n|\n|\r)/gm, '');
-      // replace styles to optimized css file
-      code = code.replace(/<!\-\- compress css \-\->(.*?)<!\-\- endcompress \-\->/,
-                         style);
-    });
+  //   this.srcStyles.forEach(function(value) {
+  //     var style = '<link href="SRC"  />';
+  //     style = style.replace('SRC', value);
+  //     // remove blank lines
+  //     code = data.replace(/(\r\n|\n|\r)/gm, '');
+  //     // replace styles to optimized css file
+  //     code = code.replace(/<!\-\- compress css \-\->(.*?)<!\-\- endcompress \-\->/,
+  //                        style);
+  //   });
 
-    return code;
-  },
+  //   return code;
+  // },
 
-  updateScripts: function(filename, data) {
+  updateFiles: function(type, filename, data) {
+    var typeFiles = {
+      js: {
+        file: '<script src="{{ SRC }}"></script>',
+        regex: /<!\-\- compress js \-\->(.*?)<!\-\- endcompress \-\->/,
+        list: this.srcScripts
+      },
+
+      css: {
+        file: '<link href="{{ SRC }}">',
+        regex: /<!\-\- compress css \-\->(.*?)<!\-\- endcompress \-\->/,
+        list: this.srcStyles
+      }
+    };
+
     var value = this.srcScripts[0];
-    var script = '<script src="{{ SRC }}"></script>';
-    script = script.replace('{{ SRC }}', value);
-    // remove blank lines
+    var file = typeFiles[type].file;
+    file = file.replace('{{ SRC }}', value);
+    var list = typeFiles[type].list;
+    // removes blank lines
     var code = data.replace(/(\r\n|\n|\r)/gm, '');
-    // replace scripts to optimized script
-    code = code.replace(/<!\-\- compress js \-\->(.*?)<!\-\- endcompress \-\->/,
-                       script);
-    // remove first script of list
-    this.srcScripts.shift();
+    // replaces scripts to optimized script
+    code = code.replace(typeFiles[type].regex, file);
+    // removes first script of the list
+    list.shift();
 
-    var hasCompressJS = this.srcScripts.length;
-
-    if (hasCompressJS) {
-      return this.updateScripts(filename, code);
-    }
+    var hasCompressJS = list.length;
+    if (hasCompressJS) return this.updateFiles(type, filename, code);
 
     return code;
   },

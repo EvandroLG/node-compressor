@@ -122,9 +122,9 @@ Compressor.prototype = {
 
   createMinifyJs: function(scripts) {
     var code = uglify.minify(scripts).code;
-    var filename = guid() + '.js';
+    var filename = 'js/' + guid() + '.js';
     this.srcScripts.push(filename);
-    var srcScript = this.root + '.compressed/js/' + filename;
+    var srcScript = this.root + '.compressed/' + filename;
     
     this.createDirectories(function() {
       fs.writeFile(srcScript, code);

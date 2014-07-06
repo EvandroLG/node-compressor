@@ -66,23 +66,7 @@ Compressor.prototype = {
     }.bind(this));
   },
 
-  // updateStyles: function(filename, data) {
-  //   var code;
-
-  //   this.srcStyles.forEach(function(value) {
-  //     var style = '<link href="SRC"  />';
-  //     style = style.replace('SRC', value);
-  //     // remove blank lines
-  //     code = data.replace(/(\r\n|\n|\r)/gm, '');
-  //     // replace styles to optimized css file
-  //     code = code.replace(/<!\-\- compress css \-\->(.*?)<!\-\- endcompress \-\->/,
-  //                        style);
-  //   });
-
-  //   return code;
-  // },
-
-  updateFiles: function(type, filename, data) {
+  setTypeFiles: function() {
     var typeFiles = {
       js: {
         file: '<script src="{{ SRC }}"></script>',
@@ -97,17 +81,18 @@ Compressor.prototype = {
       }
     };
 
-    var list = typeFiles[type].list;
+    return typeFiles;
+  },
+
+  updateFiles: function(type, filename, data) {
+    var typeFiles = this.setTypeFiles()[type];
+    var list = typeFiles.list;
     var value = list[0];
-    var file = typeFiles[type].file;
-    // console.log(file);
-    file = file.replace('{{ SRC }}', value);
-    
-    // console.log(this.srcStyles);
+    var file = typeFiles.file.replace('{{ SRC }}', value);
     // removes blank lines
     var code = data.replace(/(\r\n|\n|\r)/gm, '');
     // replaces scripts to optimized script
-    code = code.replace(typeFiles[type].regex, file);
+    code = code.replace(typeFiles.regex, file);
     // removes first script of the list
     list.shift();
 

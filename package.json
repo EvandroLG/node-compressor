@@ -13,7 +13,8 @@
     "jasmine-node": "~1.14.3"
   },
   "devDependencies": {
-    "clean-css": "^2.1.8"
+    "clean-css": "^2.1.8",
+    "colors": "^0.6.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

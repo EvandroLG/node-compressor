@@ -14,6 +14,8 @@ var uglify = require('uglify-js');
 var ClearCss = require('clean-css');
 var path = require('path');
 
+var Params = require('./lib/params');
+
 /*
   function that create a guid - global unique identifier
   http://note19.com/2007/05/27/javascript-guid-generator/
@@ -194,33 +196,33 @@ Compressor.prototype = {
   }
 };
 
-var Params = function() {
-  this.args = process.argv.slice(2);
-  this.read();
-};
+// var Params = function() {
+//   this.args = process.argv.slice(2);
+//   this.read();
+// };
 
-Params.prototype = {
-  read: function() {
-    var that = this;
+// Params.prototype = {
+//   read: function() {
+//     var that = this;
 
-    this.args.forEach(function(param) {
-      var splited = param.split('=');
-      var key = splited[0];
-      var value = splited[1];
-      var isFile = key === '-f' || key === '--file';
-      var isRoot = key === '-r' || key === '--root';
+//     this.args.forEach(function(param) {
+//       var splited = param.split('=');
+//       var key = splited[0];
+//       var value = splited[1];
+//       var isFile = key === '-f' || key === '--file';
+//       var isRoot = key === '-r' || key === '--root';
 
-      if(isFile) {
-        that.file = value;
-      }
+//       if(isFile) {
+//         that.file = value;
+//       }
 
-      if(isRoot) {
-        that.root = value;
-      }
+//       if(isRoot) {
+//         that.root = value;
+//       }
 
-    });
-  }
-};
+//     });
+//   }
+// };
 
 var params = new Params();
 

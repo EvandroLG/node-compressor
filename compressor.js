@@ -8,6 +8,8 @@
   * License: MIT
 */
 
+'strict mode';
+
 var fs = require('fs');
 var Params = require('./lib/params');
 var Compressor = require('./lib/compressor');

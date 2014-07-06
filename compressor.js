@@ -146,10 +146,10 @@ Compressor.prototype = {
         var isLast = totalStyle === index;
         if(!isLast) return;
 
-        var filename = guid() + '.css';
-        var srcStyle = root + '.compressed/css/' + filename;
+        var filename = 'css/' + guid() + '.css';
+        var srcStyle = root + '.compressed/' + filename;
         var code = new ClearCss().minify(source);
-        that.srcStyles.push(srcStyle);
+        that.srcStyles.push(filename);
 
         that.createDirectories(function() {
           fs.writeFile(srcStyle, code);

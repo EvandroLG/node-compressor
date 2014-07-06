@@ -97,10 +97,13 @@ Compressor.prototype = {
       }
     };
 
-    var value = this.srcScripts[0];
-    var file = typeFiles[type].file;
-    file = file.replace('{{ SRC }}', value);
     var list = typeFiles[type].list;
+    var value = list[0];
+    var file = typeFiles[type].file;
+    // console.log(file);
+    file = file.replace('{{ SRC }}', value);
+    
+    // console.log(this.srcStyles);
     // removes blank lines
     var code = data.replace(/(\r\n|\n|\r)/gm, '');
     // replaces scripts to optimized script

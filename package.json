@@ -1,20 +1,20 @@
 {
   "name": "node-compressor",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "A complete solution to compress static files",
-  "main": "compressor.js",
+  "main": "index.js",
   "bin": {
-    "node-compressor": "compressor.js"
+    "node-compressor": "index.js"
   },
   "dependencies": {
     "fs-extra": "~0.8.1",
     "rimraf": "~2.2.6",
     "uglify-js": "~2.4.13",
-    "jasmine-node": "~1.14.3"
-  },
-  "devDependencies": {
     "clean-css": "^2.1.8",
     "colors": "^0.6.2"
+  },
+  "devDependencies": {
+    "jasmine-node": "~1.14.3",
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -27,6 +27,7 @@
     "compress",
     "compressor",
     "js",
+    "javascript",
     "css",
     "html",
     "static",

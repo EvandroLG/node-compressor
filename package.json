@@ -1,6 +1,6 @@
 {
   "name": "node-compressor",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A complete solution to compress static files",
   "main": "index.js",
   "bin": {

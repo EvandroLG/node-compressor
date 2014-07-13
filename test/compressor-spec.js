@@ -10,21 +10,18 @@ describe('compressor', function() {
     var fixtures = {};
     fixtures.html = 'test/fixtures/index.html';
 
-    this.runCommand = function() {
+    this.runCommand = function(callback) {
       var command = 'node index -f={{ HTML }} -r=test/fixtures/'
                    .replace('{{ HTML }}', fixtures.html);
 
-      exec(command);
+      exec(command, callback);
     };
 
-    this.verifyDirectoriesOrFiles = function(path) {
-      this.runCommand();
-
-      waits(200);
-
-      runs(function() {
+    this.verifyDirectoriesOrFiles = function(path, done) {
+      this.runCommand(function() {
         var hasFile = fs.existsSync(path);
         expect(hasFile).toBeTruthy();
+        if (done) done();
       });
     };
   });
@@ -34,31 +31,44 @@ describe('compressor', function() {
   });
 
   describe('html', function() {
-    it('should create .compressed directory', function() {
-      this.verifyDirectoriesOrFiles('test/fixtures/.compressed/');
+    it('should create .compressed directory', function(done) {
+      this.verifyDirectoriesOrFiles('test/fixtures/.compressed/', done);
     });
 
-    it('should create index.html file in .compressed', function() {
-      this.verifyDirectoriesOrFiles('test/fixtures/.compressed/index.html');
+    it('should create index.html file in .compressed', function(done) {
+      this.verifyDirectoriesOrFiles('test/fixtures/.compressed/index.html', done);
     });
   });
 
   
   describe('js', function() {
-    it('should create directory js in .compressed', function() {
-      this.verifyDirectoriesOrFiles('test/fixtures/.compressed/js/');
+    it('should create directory js in .compressed', function(done) {
+      this.verifyDirectoriesOrFiles('test/fixtures/.compressed/js/', done);
     });
 
-    it('should exists two js files in .compressed', function() {
-      this.runCommand();
-
-      waits(200);
-
-      runs(function() {
+    it('should exists two js files in .compressed', function(done) {
+      this.runCommand(function() {
         var files = fs.readdirSync('test/fixtures/.compressed/js/');
         var totalFiles = files.length;
 
         expect(totalFiles).toEqual(2);
+        done();
+      });
+    });
+  });
+
+  describe('css', function() {
+    it('should create directory css in .compressed', function(done) {
+      this.verifyDirectoriesOrFiles('test/fixtures/.compressed/css/', done);
+    });
+
+    it('should exist one css file in .compressed', function(done) {
+      this.runCommand(function() {
+        var files = fs.readdirSync('test/fixtures/.compressed/css/');
+        var totalFiles = files.length;
+
+        expect(totalFiles).toEqual(1);
+        done();
       });
     });
   });

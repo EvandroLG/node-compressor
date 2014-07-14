@@ -11,6 +11,7 @@
 
 'strict mode';
 
+
 var fs = require('fs');
 var Params = require('./lib/params');
 var Compressor = require('./lib/compressor');
@@ -23,6 +24,5 @@ var main = function(file) {
   });
 };
 
-var params = new Params();
-
+var files = Params.read().files;
 params.files.forEach(main);

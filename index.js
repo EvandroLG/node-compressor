@@ -16,11 +16,13 @@ var Params = require('./lib/params');
 var Compressor = require('./lib/compressor');
 
 
-var params = new Params();
-
-var main = function(err, data) {
-  var root = params.root || '';
-  new Compressor(err, data, root, params);
+var main = function(file) {
+  fs.readFile(file, 'utf8', function(err, data) {
+    var root = params.root || '';
+    new Compressor(err, data, root, file); 
+  });
 };
 
-fs.readFile(params.file, 'utf8', main);
+var params = new Params();
+
+params.files.forEach(main);

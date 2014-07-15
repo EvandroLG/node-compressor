@@ -21,8 +21,8 @@ var Compressor = require('./lib/compressor');
 
 var main = function(file) {
   fs.readFile(file, 'utf8', function(err, data) {
-    var root = Params.root || path.dirname(file);
-    new Compressor(err, data, root + '/', file); 
+    var root = Params.root || path.dirname(path.resolve(file));
+    new Compressor(err, data, root, file); 
   });
 };
 

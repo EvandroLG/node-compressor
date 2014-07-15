@@ -9,6 +9,7 @@
   * License: MIT
 */
 
+
 'strict mode';
 
 
@@ -19,10 +20,10 @@ var Compressor = require('./lib/compressor');
 
 var main = function(file) {
   fs.readFile(file, 'utf8', function(err, data) {
-    var root = params.root || '';
+    var root = Params.root || '';
     new Compressor(err, data, root, file); 
   });
 };
 
 var files = Params.read().files;
-params.files.forEach(main);
+files.forEach(main);

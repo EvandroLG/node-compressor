@@ -7,12 +7,15 @@
     "node-compressor": "index.js"
   },
   "dependencies": {
-    "fs-extra": "~0.8.1",
-    "rimraf": "~2.2.6",
-    "uglify-js": "~2.4.13",
+    "MD5": "^1.2.1",
     "clean-css": "^2.1.8",
     "colors": "^0.6.2",
-    "html-minifier": "^0.6.5"
+    "fs-extra": "~0.8.1",
+    "html-minifier": "^0.6.5",
+    "rimraf": "~2.2.6",
+    "uglify-js": "~2.4.13",
+    "uglifycss": "0.0.9",
+    "underscore": "^1.6.0"
   },
   "devDependencies": {
     "jasmine-node": "~1.14.3"

@@ -12,6 +12,7 @@
 'strict mode';
 
 var fs = require('fs');
+var path = require('path');
 var Params = require('./lib/params');
 var Compressor = require('./lib/compressor');
 
@@ -19,7 +20,7 @@ var Compressor = require('./lib/compressor');
 var params = new Params();
 
 var main = function(err, data) {
-  var root = params.root || '';
+  var root = params.root || path.dirname(path.resolve(params.file));
   new Compressor(err, data, root, params);
 };
 

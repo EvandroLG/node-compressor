@@ -10,7 +10,7 @@
 */
 
 
-'strict mode';
+'use strict';
 
 
 var fs = require('fs');

@@ -1,6 +1,6 @@
 {
   "name": "node-compressor",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "A complete solution to compress static files",
   "main": "index.js",
   "bin": {
@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "MD5": "^1.2.1",
-    "clean-css": "^2.1.8",
     "colors": "^0.6.2",
     "fs-extra": "~0.8.1",
     "html-minifier": "^0.6.5",

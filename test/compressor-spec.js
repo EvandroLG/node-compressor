@@ -8,10 +8,10 @@ describe('compressor', function() {
 
   beforeEach(function() {
     var fixtures = {};
-    fixtures.html = 'test/fixtures/index.html';
+    fixtures.html = 'test/fixtures/file.html';
 
     this.runCommand = function(callback) {
-      var command = 'node index {{ HTML }} -r=test/fixtures/'
+      var command = 'node index {{ HTML }} -r test/fixtures/'
                    .replace('{{ HTML }}', fixtures.html);
 
       exec(command, callback);
@@ -21,7 +21,8 @@ describe('compressor', function() {
       this.runCommand(function() {
         var hasFile = fs.existsSync(path);
         expect(hasFile).toBeTruthy();
-        if (done) done();
+
+        done();
       });
     };
   });
@@ -36,7 +37,7 @@ describe('compressor', function() {
     });
 
     it('should create index.html file in .compressed', function(done) {
-      this.verifyDirectoriesOrFiles('test/fixtures/.compressed/index.html', done);
+      this.verifyDirectoriesOrFiles('test/fixtures/.compressed/file.html', done);
     });
   });
 

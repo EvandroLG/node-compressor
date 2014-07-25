@@ -1,4 +1,4 @@
-.PHONY: all test clean
+.PHONY:
 
 install: install_node 
 

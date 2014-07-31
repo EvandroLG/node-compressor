@@ -17,15 +17,20 @@ var Compressor = require('./lib/compressor');
 
 var main = function(file) {
 
-  var root = Params.root || path.dirname();
-  
-  fs.readFile(file, 'utf8', function(err, data) {
+	if ( fs.statSync( file ).isFile() ) {
+		
+	  var root = Params.root || path.dirname();
+	  
+	  fs.readFile(file, 'utf8', function(err, data) {
 
-    new Compressor(err, data, root, file);
+	    new Compressor(err, data, root, file);
 
-  });
+	  });
+
+	}
 
 };
 
 var files = Params.read().files;
+
 files.forEach(main);

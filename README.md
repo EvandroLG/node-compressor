@@ -14,7 +14,13 @@ The files that you want to compress must be between `<!-- compress js/css -->` a
 After, run this command in your Terminal:
 
 ```shell
-node-compressor -f=YOUR_FILE.html
+node-compressor YOUR_FILE-1.html YOUR_FILE-2.html
+```
+```shell
+node-compressor YOUR_FOLDER/*.html
+```
+```shell
+node-compressor YOUR_FOLDER/**/*
 ```
 
 Then, Node Compress will compress these files and deliver them within the directory ``.compressed``

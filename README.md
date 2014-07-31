@@ -9,7 +9,7 @@ npm install node-compressor -g
 ## How it works?
 It's a command line tool that receives as parameter an HTML file and compresses the JavaScript and CSS files called. It also minify the HTML file.
 
-The files that you want to compress must be between `<!-- compress js/css -->` and `<!-- endcompress -->`, for example, like this:
+The files that you want to compress must be between `<!-- compress -->` and `<!-- endcompress -->`, for example, like this:
 
 After, run this command in your Terminal:
 

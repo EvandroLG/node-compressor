@@ -3,17 +3,16 @@ var fs = require('fs-extra');
 var rimraf = require('rimraf');
 var exec = require('child_process').exec;
 
-
 describe('compressor', function() {
 
   beforeEach(function() {
     var fixtures = {};
     fixtures.html = 'test/fixtures/file.html';
 
-    this.runCommand = function(callback) {
+    this.runCommand = function(callback, files) {
       var command = 'node index {{ HTML }} -r test/fixtures/'
-                   .replace('{{ HTML }}', fixtures.html);
-
+                   .replace('{{ HTML }}', files || fixtures.html);
+                   
       exec(command, callback);
     };
 
@@ -40,7 +39,6 @@ describe('compressor', function() {
       this.verifyDirectoriesOrFiles('test/fixtures/.compressed/file.html', done);
     });
   });
-
   
   describe('js', function() {
     it('should create directory js in .compressed', function(done) {
@@ -71,6 +69,17 @@ describe('compressor', function() {
         expect(totalFiles).toEqual(1);
         done();
       });
+    });
+  });
+
+  describe('glob', function() {
+    it('should exist one html file in .compressed capture by glob', function(done) {
+      this.runCommand(function() {
+        var hasFile = fs.existsSync('test/fixtures/.compressed/file.html');
+        expect(hasFile).toBeTruthy();
+
+        done();
+      }, 'test/**/*');
     });
   });
 
